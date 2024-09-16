@@ -9,4 +9,5 @@ interface ShortUrlRepositoryInterface
 {
     public function create(ShortUrlDto $dto): ShortUrl;
     public function getByShortUrl(string $shortUrl): ?ShortUrl;
+    public function deleteExpiredUrls();
 }

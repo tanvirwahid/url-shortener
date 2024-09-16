@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Contracts\Repositories\ShortUrlRepositoryInterface;
 use App\Dtos\ShortUrlDto;
 use App\Models\ShortUrl;
+use Carbon\Carbon;
 
 class ShortUrlRepository implements ShortUrlRepositoryInterface
 {
@@ -27,5 +28,10 @@ class ShortUrlRepository implements ShortUrlRepositoryInterface
         return $this->shortUrl->where('shortened_url', $shortenedUrl)->first();
     }
 
+    public function deleteExpiredUrls()
+    {
+        $this->shortUrl->where('expires_at', '<' , Carbon::now()->subHours(48))
+            ->delete();
+    }
 
 }

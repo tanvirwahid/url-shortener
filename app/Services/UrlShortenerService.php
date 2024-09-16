@@ -32,4 +32,9 @@ class UrlShortenerService
     {
         return $this->shortUrlRepository->getByShortUrl($shortUrl);
     }
+
+    public function deleteExpiredUrls()
+    {
+        $this->shortUrlRepository->deleteExpiredUrls();
+    }
 }
