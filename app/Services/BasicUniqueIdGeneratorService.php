@@ -3,9 +3,10 @@
 namespace App\Services;
 
 use App\Contracts\Repositories\UniqueIdRepositoryInterface;
+use App\Contracts\UniqueIdGeneratorInterface;
 use App\Dtos\UniqueIdDto;
 
-class UniqueIdService
+class BasicUniqueIdGeneratorService implements UniqueIdGeneratorInterface
 {
     const MAX_VALUE_TO_GENERATE = 2 ** 62;
 
@@ -14,7 +15,7 @@ class UniqueIdService
         private UniqueIdRepositoryInterface $uniqueIdRepository
     ) {}
 
-    public function create(): int
+    public function createUniqueId(): int
     {
         return $this->uniqueIdRepository
             ->create(

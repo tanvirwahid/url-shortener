@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class ShortUrl extends Model
+{
+    use HasFactory, SoftDeletes;
+
+    protected $appends = [
+        'url'
+    ];
+
+    protected $fillable = [
+        'original_url',
+        'shortened_url',
+        'is_private',
+        'user_id',
+        'expires_at'
+    ];
+
+    public function getUrlAttribute(): string
+    {
+        return url($this->shortened_url);
+    }
+}
