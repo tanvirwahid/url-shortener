@@ -12,8 +12,7 @@ class VerifyEmail extends BaseVerifyEmail implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct(private string $url)
-    {}
+    public function __construct(private string $url) {}
 
     protected function buildMailMessage($url)
     {

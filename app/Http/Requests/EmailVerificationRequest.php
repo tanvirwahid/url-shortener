@@ -5,14 +5,12 @@ namespace App\Http\Requests;
 use App\Models\User;
 use App\Services\UserService;
 use Illuminate\Foundation\Auth\EmailVerificationRequest as BaseEmailVerificationRequest;
-use Illuminate\Support\Facades\Log;
 
 class EmailVerificationRequest extends BaseEmailVerificationRequest
 {
     public function __construct(
         private UserService $userService, array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [], $content = null
-    )
-    {
+    ) {
         $this->initialize($query, $request, $attributes, $cookies, $files, $server, $content);
     }
 

@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function __construct(private User $user)
-    {}
+    public function __construct(private User $user) {}
 
     public function create(UserDto $userDto): User
     {
@@ -18,7 +17,7 @@ class UserRepository implements UserRepositoryInterface
             'name' => $userDto->getName(),
             'email' => $userDto->getEmail(),
             'password' => Hash::make($userDto->getPassword()),
-            'is_admin' => $userDto->isAdmin() ? 1 : 0
+            'is_admin' => $userDto->isAdmin() ? 1 : 0,
         ]);
     }
 
@@ -26,5 +25,4 @@ class UserRepository implements UserRepositoryInterface
     {
         return $this->user->find($id);
     }
-
 }

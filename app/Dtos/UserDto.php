@@ -5,8 +5,11 @@ namespace App\Dtos;
 class UserDto
 {
     private string $name;
+
     private string $email;
+
     private string $password;
+
     private bool $isAdmin = false;
 
     public function getName(): string
@@ -59,9 +62,9 @@ class UserDto
 
     public function __toString(): string
     {
-        return 'name = '.$this->name. PHP_EOL.
-            'email = '.$this->email. PHP_EOL.
-            'is admin'. $this->isAdmin ? '1': '0'.PHP_EOL.
-            'password'. $this->password;
+        return 'name = '.$this->name.PHP_EOL.
+            'email = '.$this->email.PHP_EOL.
+            'is admin'.$this->isAdmin ? '1' : '0'.PHP_EOL.
+            'password'.$this->password;
     }
 }
