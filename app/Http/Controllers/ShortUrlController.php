@@ -2,42 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Dtos\ShortUrlDto;
+use App\Contracts\ShortUrlDtoFactoryInterface;
 use App\Http\Requests\ShortUrlCreationRequest;
 use App\Services\UrlShortenerService;
-use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class ShortUrlController extends Controller
 {
-    public function __construct(private UrlShortenerService $urlShortenerService)
+    public function __construct(
+        private UrlShortenerService $urlShortenerService,
+        private ShortUrlDtoFactoryInterface $shortUrlDtoFactory
+    )
     {}
 
-    public function refirect($shortUrl)
+    public function refirect($shortUrl, Request $request)
     {
-        $url = $this->urlShortenerService->getOriginalUrl($shortUrl);
-
-        if($url === null || $url->expires_at < Carbon::now())
-        {
-            abort(404);
-        }
-
-        return redirect()->away($url->original_url);
+        return redirect()->away($request->url);
     }
 
-    public function store(ShortUrlCreationRequest $request, ShortUrlDto $shortUrlDto)
+    public function store(ShortUrlCreationRequest $request)
     {
-        $shortUrlDto->setOriginalUrl($request->get('original_url'))
-            ->setExpiresAt(Carbon::now()->addDays(
-                $request->filled('expiration') ? $request->get('expiration') : 30
-            ));
-
-        if (auth()->check()) {
-            $shortUrlDto->setIsPrivate(
-                $request->filled('is_private') ? $request->get('is_private') : false
-            )->setCreatedBy(auth()->id());
-        }
-
-        $url = $this->urlShortenerService->generate($shortUrlDto);
+        $url = $this->urlShortenerService->generate(
+            $this->shortUrlDtoFactory->getShortUrlDto($request)
+        );
 
         return view('view-shortened-url')->with(['url' => $url]);
     }

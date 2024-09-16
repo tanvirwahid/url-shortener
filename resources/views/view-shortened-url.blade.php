@@ -20,19 +20,34 @@
 
                         <div class="mb-4">
                             <label for="original_url" class="block text-sm font-medium text-gray-700">Shortened URL</label>
-                            <input type="url" name="original_url" id="original_url" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" value="{{ $url['url'] }}"
-                                   disabled>
+                            <div class="mt-1 block w-full relative">
+
+                                <input type="url" name="shortened_url" id="shortened_url"
+                                       class="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pr-12"
+                                       value="{{ $url['url'] }}" readonly>
+                                <button type="button" onclick="copyToClipboard()"
+                                        class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-indigo-500 text-white px-3 py-1 rounded-md">
+                                    Copy
+                                </button>
+                            </div>
                         </div>
 
-
-                        <div class="flex items-center justify-end mt-4">
-                            <x-primary-button>
-                                {{ __('Shorten URL') }}
-                            </x-primary-button>
-                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function copyToClipboard() {
+            var urlInput = document.getElementById("shortened_url");
+
+            urlInput.select();
+            urlInput.setSelectionRange(0, 99999);
+
+            document.execCommand("copy");
+
+            alert("Copied the URL: " + urlInput.value);
+        }
+    </script>
 </x-app-layout>
