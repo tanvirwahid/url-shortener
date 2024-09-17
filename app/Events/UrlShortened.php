@@ -32,7 +32,7 @@ class UrlShortened implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('url-shortened'),
+            new Channel('url-shortened.'.$this->urlId),
         ];
     }
 

@@ -31,4 +31,9 @@ class UserRepository implements UserRepositoryInterface
         return $this->user->count();
     }
 
+    public function findByEmail(string $email): ?User
+    {
+        return $this->user->where('email', $email)->first();
+    }
+
 }

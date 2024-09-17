@@ -7,7 +7,7 @@ use App\Contracts\Repositories\ShortUrlRepositoryInterface;
 use App\Contracts\UniqueIdGeneratorInterface;
 use App\Dtos\ShortUrlDto;
 use App\Models\ShortUrl;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class UrlShortenerService
 {
@@ -39,13 +39,13 @@ class UrlShortenerService
                 $this->uniqueIdGenerator->createUniqueId()
             );
 
-            if($this->findByShortUrl($shortenedUrl) == null) 
+            if($this->findByShortUrl($shortenedUrl) == null)
             {
                 $result = $shortenedUrl;
                 break;
             }
         }
-        
+
         $this->shortUrlRepository->addShortenedUrl($shortUrl, $result);
 
         return $result;
@@ -64,5 +64,10 @@ class UrlShortenerService
     public function deleteExpiredUrls()
     {
         $this->shortUrlRepository->deleteExpiredUrls();
+    }
+
+    public function findByOriginalUrl(string $originalUrl): LengthAwarePaginator
+    {
+        return $this->shortUrlRepository->findShortUrlByOriginalUrl($originalUrl);
     }
 }

@@ -24,9 +24,9 @@ class ShortUrl extends Model
         'expires_at'
     ];
 
-    public function getUrlAttribute(): string
+    public function getUrlAttribute(): ?string
     {
-        return url($this->shortened_url);
+        return $this->shortened_url ? url($this->shortened_url) : null;
     }
 
     public function scopeActive(Builder $query)

@@ -10,7 +10,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class ShortUrlRepository implements ShortUrlRepositoryInterface
 {
-    public function __construct(private ShortUrl $shortUrl) {}
+    public function __construct(private ShortUrl $shortUrl)
+    {
+    }
 
     public function index(int $perPage = 10): LengthAwarePaginator
     {
@@ -62,5 +64,20 @@ class ShortUrlRepository implements ShortUrlRepositoryInterface
     public function getTotal(): int
     {
         return $this->shortUrl->active()->count();
+    }
+
+    public function findShortUrlByOriginalUrl(string $originalUrl): LengthAwarePaginator
+    {
+        $activeUrls = ShortUrl::active()
+            ->where('user_id', auth()->id())
+            ->where('original_url', $originalUrl)
+            ->select('shortened_url')
+            ->paginate(10);
+
+        $activeUrls->getCollection()->transform(function ($shortUrl) {
+            return $shortUrl->url;
+        });
+
+        return $activeUrls;
     }
 }
