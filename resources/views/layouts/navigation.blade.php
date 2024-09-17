@@ -10,12 +10,14 @@
                         {{ __('Generate short URL') }}
                     </x-nav-link>
                 </div>
-
+                @can('view-created-urls')
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('short-url.index')" :active="request()->routeIs('short-url.index')">
                         {{ __('All Urls') }}
                     </x-nav-link>
-                </div>
+                </div>    
+                @endcan
+                
             </div>
 
             <!-- Settings Dropdown -->
