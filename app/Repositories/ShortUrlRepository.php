@@ -6,11 +6,17 @@ use App\Contracts\Repositories\ShortUrlRepositoryInterface;
 use App\Dtos\ShortUrlDto;
 use App\Models\ShortUrl;
 use Carbon\Carbon;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ShortUrlRepository implements ShortUrlRepositoryInterface
 {
     public function __construct(private ShortUrl $shortUrl)
     {}
+
+    public function index(int $perPage = 10): LengthAwarePaginator
+    {
+        return $this->shortUrl->where('expires_at', '>=', Carbon::now())->paginate($perPage);
+    }
 
     public function create(ShortUrlDto $dto): ShortUrl
     {
@@ -36,7 +42,7 @@ class ShortUrlRepository implements ShortUrlRepositoryInterface
 
     public function getTotal(): int
     {
-        return $this->shortUrl->count();
+        return $this->shortUrl->where('expires_at', '>=', Carbon::now())->count();
     }
 
 }

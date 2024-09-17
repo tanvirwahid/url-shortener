@@ -17,6 +17,11 @@ class UrlShortenerService
     )
     {}
 
+    public function index()
+    {
+        return $this->shortUrlRepository->index();
+    }
+
     public function generate(ShortUrlDto $shortUrlDto)
     {
         return $this->shortUrlRepository->create(
