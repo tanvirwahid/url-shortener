@@ -44,7 +44,7 @@
             const urlId = "{{ $url->id }}";
 
             if (document.getElementById('shortened_url').value == 'Waiting...') {
-                fetch(`/${urlId}/generate`, {
+                fetch(`short-url/${urlId}/generate`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

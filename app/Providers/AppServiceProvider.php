@@ -43,6 +43,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('set-custom-url', function() {
             return $this->isValidated();
         });
+
+        Gate::define('view-created-urls', function() {
+            return auth()->check();
+        });
     }
 
     private function isValidated()

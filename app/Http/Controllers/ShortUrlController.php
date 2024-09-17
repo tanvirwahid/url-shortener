@@ -16,6 +16,13 @@ class ShortUrlController extends Controller
     )
     {}
 
+    public function index()
+    {
+        return view('all_urls')->with([
+            'urls' => $this->urlShortenerService->getSelf()
+        ]);
+    }
+
     public function refirect($shortUrl, Request $request)
     {
         return redirect()->away($request->url);

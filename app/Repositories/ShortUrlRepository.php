@@ -19,6 +19,13 @@ class ShortUrlRepository implements ShortUrlRepositoryInterface
             ->paginate($perPage);
     }
 
+    public function getUrlsCreatedByAuthenticatedUser(int $perPage = 10): LengthAwarePaginator
+    {
+        return $this->shortUrl->active()
+            ->where('user_id', auth()->id())
+            ->paginate($perPage);
+    }
+
     public function create(ShortUrlDto $dto): ShortUrl
     {
         return $this->shortUrl->create([

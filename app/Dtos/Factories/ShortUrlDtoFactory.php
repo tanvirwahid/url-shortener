@@ -19,7 +19,7 @@ class ShortUrlDtoFactory implements ShortUrlDtoFactoryInterface
                 $request->filled('expiration') ? intval($request->get('expiration')) : 30
             ));
 
-        if (auth()->check()) {
+        if (auth()->check() && auth()->user()->email_verified_at != null) {
             $this->shortUrlDto->setIsPrivate(
                 $request->filled('is_private') ? $request->get('is_private') : false
             )->setCreatedBy(auth()->id());

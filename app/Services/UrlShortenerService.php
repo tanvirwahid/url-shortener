@@ -7,6 +7,7 @@ use App\Contracts\Repositories\ShortUrlRepositoryInterface;
 use App\Contracts\UniqueIdGeneratorInterface;
 use App\Dtos\ShortUrlDto;
 use App\Models\ShortUrl;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class UrlShortenerService
 {
@@ -20,6 +21,11 @@ class UrlShortenerService
     public function index()
     {
         return $this->shortUrlRepository->index();
+    }
+
+    public function getSelf(): LengthAwarePaginator
+    {
+        return $this->shortUrlRepository->getUrlsCreatedByAuthenticatedUser();
     }
 
     public function generate(int $id): string
@@ -42,7 +48,7 @@ class UrlShortenerService
         
         $this->shortUrlRepository->addShortenedUrl($shortUrl, $result);
 
-        return $shortenedUrl;
+        return $result;
     }
 
     public function findByShortUrl(string $shortUrl): ?ShortUrl
