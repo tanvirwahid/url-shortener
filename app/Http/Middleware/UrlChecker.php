@@ -23,7 +23,7 @@ class UrlChecker
     {
         $shortUrl = $request->route('shortUrl');
 
-        $url = $this->urlShortenerService->getOriginalUrl($shortUrl);
+        $url = $this->urlShortenerService->findByShortUrl($shortUrl);
 
         if($url === null || $url->expires_at < Carbon::now())
         {

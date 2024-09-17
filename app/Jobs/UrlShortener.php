@@ -31,6 +31,7 @@ class UrlShortener implements ShouldQueue
     public function handle(): void
     {
         $shortenedUrl = $this->urlShortenerService->generate($this->id);
+        
         event(new UrlShortened(url($shortenedUrl), $this->id));
     }
 }

@@ -26,16 +26,26 @@ class UrlShortenerService
     {
         $shortUrl = $this->shortUrlRepository->findById($id);
 
-        $shortenedUrl = $this->base62Converter->encodeToBase62(
-            $this->uniqueIdGenerator->createUniqueId()
-        );
+        $result = '';
 
-        $this->shortUrlRepository->addShortenedUrl($shortUrl, $shortenedUrl);
+        while(1) {
+            $shortenedUrl = $this->base62Converter->encodeToBase62(
+                $this->uniqueIdGenerator->createUniqueId()
+            );
+
+            if($this->findByShortUrl($shortenedUrl) == null) 
+            {
+                $result = $shortenedUrl;
+                break;
+            }
+        }
+        
+        $this->shortUrlRepository->addShortenedUrl($shortUrl, $result);
 
         return $shortenedUrl;
     }
 
-    public function getOriginalUrl(string $shortUrl): ?ShortUrl
+    public function findByShortUrl(string $shortUrl): ?ShortUrl
     {
         return $this->shortUrlRepository->getByShortUrl($shortUrl);
     }
