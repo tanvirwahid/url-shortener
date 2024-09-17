@@ -5,7 +5,7 @@ namespace App\Dtos;
 class ShortUrlDto
 {
     private string $originalUrl;
-    private string $shortenedUrl;
+    private string|null $shortenedUrl = null;
     private bool $isPrivate = false;
     private $expiresAt;
     private int|null $createdBy = null;
@@ -22,7 +22,7 @@ class ShortUrlDto
         return $this;
     }
 
-    public function getShortenedUrl(): string
+    public function getShortenedUrl(): ?string
     {
         return $this->shortenedUrl;
     }

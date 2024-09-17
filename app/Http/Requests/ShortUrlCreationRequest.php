@@ -24,7 +24,8 @@ class ShortUrlCreationRequest extends FormRequest
         return [
             'original_url' => 'required|string|url',
             'is_private' => 'nullable|boolean',
-            'expiration' => 'nullable|int|min:1|max:90',
+            'expiration' => 'nullable|integer|min:1|max:90',
+            'shortened_url' => 'nullable|string|unique:short_urls,shortened_url',
         ];
     }
 }

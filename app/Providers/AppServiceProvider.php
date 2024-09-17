@@ -39,6 +39,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('set-expiry-date', function () {
             return $this->isValidated();
         });
+
+        Gate::define('set-custom-url', function() {
+            return $this->isValidated();
+        });
     }
 
     private function isValidated()

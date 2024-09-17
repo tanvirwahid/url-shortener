@@ -25,7 +25,8 @@ class ShortUrlRepository implements ShortUrlRepositoryInterface
             'original_url' => $dto->getOriginalUrl(),
             'is_private' => $dto->isPrivate() ? 1 : 0,
             'expires_at' => $dto->getExpiresAt(),
-            'user_id' => $dto->getCreatedBy()
+            'user_id' => $dto->getCreatedBy(),
+            'shortened_url' => $dto->getShortenedUrl()
         ]);
     }
 

@@ -24,7 +24,7 @@
 
                                 <input type="url" name="shortened_url" id="shortened_url"
                                     class="w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm pr-12"
-                                    value="Waiting..." readonly>
+                                    value="{{ $url['shortened_url']!== null ? $url['shortened_url'] : 'Waiting...' }}" readonly>
                                 <button type="button" onclick="copyToClipboard()"
                                     class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-indigo-500 text-white px-3 py-1 rounded-md">
                                     Copy
@@ -42,42 +42,42 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const urlId = "{{ $url->id }}";
-            
-            if(document.getElementById('shortened_url').value == 'Waiting...') {
+
+            if (document.getElementById('shortened_url').value == 'Waiting...') {
                 fetch(`/${urlId}/generate`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({
-                        id: urlId
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            id: urlId
+                        })
                     })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+
+                window.Pusher = Pusher;
+                Pusher.logToConsole = true;
+
+                const echo = new Echo({
+                    broadcaster: 'pusher',
+                    key: '{{ env("PUSHER_APP_KEY") }}',
+                    cluster: '{{ env("PUSHER_APP_CLUSTER") }}',
+                    encrypted: true
                 });
 
+                echo.channel('url-shortened')
+                    .listen('.urlId=' + urlId, (e) => {
+                        document.getElementById('shortened_url').value = e.shortenedUrl;
+                    });
             }
 
-            window.Pusher = Pusher;
-            Pusher.logToConsole = true;
-          
-            const echo = new Echo({
-                broadcaster: 'pusher',
-                key: '{{ env("PUSHER_APP_KEY") }}',
-                cluster: '{{ env("PUSHER_APP_CLUSTER") }}',
-                encrypted: true
-            });
-
-            echo.channel('url-shortened')
-                .listen('.urlId='+urlId, (e) => {
-                    document.getElementById('shortened_url').value = e.shortenedUrl;
-                });
         });
 
 

@@ -23,6 +23,10 @@ class ShortUrlDtoFactory implements ShortUrlDtoFactoryInterface
             $this->shortUrlDto->setIsPrivate(
                 $request->filled('is_private') ? $request->get('is_private') : false
             )->setCreatedBy(auth()->id());
+
+            if($request->filled('shortened_url')) {
+                $this->shortUrlDto->setShortenedUrl($request->get('shortened_url'));
+            }
         }
 
         return $this->shortUrlDto;
