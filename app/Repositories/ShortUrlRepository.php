@@ -34,4 +34,9 @@ class ShortUrlRepository implements ShortUrlRepositoryInterface
             ->delete();
     }
 
+    public function getTotal(): int
+    {
+        return $this->shortUrl->count();
+    }
+
 }

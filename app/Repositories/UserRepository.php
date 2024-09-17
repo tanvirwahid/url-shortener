@@ -25,4 +25,10 @@ class UserRepository implements UserRepositoryInterface
     {
         return $this->user->find($id);
     }
+
+    public function getTotal(): int
+    {
+        return $this->user->count();
+    }
+
 }
