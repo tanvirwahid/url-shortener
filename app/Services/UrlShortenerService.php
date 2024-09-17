@@ -32,6 +32,11 @@ class UrlShortenerService
     {
         $shortUrl = $this->shortUrlRepository->findById($id);
 
+        if($shortUrl->shortened_url!=null)
+        {
+            return $shortUrl->shortened_url;
+        }
+
         $result = '';
 
         while(1) {

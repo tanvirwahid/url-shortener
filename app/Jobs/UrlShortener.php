@@ -20,7 +20,8 @@ class UrlShortener implements ShouldQueue
      */
     public function __construct(
         private UrlShortenerService $urlShortenerService,
-        private int $id
+        private int $id,
+        private string $baseUrl
     )
     {
     }
@@ -31,7 +32,7 @@ class UrlShortener implements ShouldQueue
     public function handle(): void
     {
         $shortenedUrl = $this->urlShortenerService->generate($this->id);
-        
-        event(new UrlShortened(url($shortenedUrl), $this->id));
+
+        event(new UrlShortened($this->baseUrl.'/'.$shortenedUrl, $this->id));
     }
 }

@@ -41,7 +41,8 @@ class ShortUrlController extends Controller
     {
         UrlShortener::dispatch(
             $this->urlShortenerService,
-            $id
+            $id,
+            url('/')
         )->onQueue(config('url-shortener.queue'));
 
         return response()->json([

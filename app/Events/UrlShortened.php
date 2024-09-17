@@ -14,29 +14,24 @@ class UrlShortened implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $shortenedUrl, $urlId;
-    /**
-     * Create a new event instance.
-     */
-    public function __construct($shortenedUrl, $urlId)
+    public $shortenedUrl;
+    public $id;
+
+    public function __construct($shortenedUrl, $id)
     {
         $this->shortenedUrl = $shortenedUrl;
-        $this->urlId = $urlId;
+        $this->id = $id;
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return array<int, \Illuminate\Broadcasting\Channel>
-     */
     public function broadcastOn(): array
     {
         return [
-            new Channel('url-shortened.'.$this->urlId),
+            new Channel('url-shortened.'.$this->id)
         ];
     }
 
-    public function broadcastAs() {
-        return 'urlId='.$this->urlId;
+    public function broadcastAs()
+    {
+        return 'UrlShortened';
     }
 }

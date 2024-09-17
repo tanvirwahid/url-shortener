@@ -72,8 +72,13 @@
                     encrypted: true
                 });
 
-                echo.channel('url-shortened.' + urlId)
-                    .listen('.urlId=' + urlId, (e) => {
+                console.log(echo);
+
+                let channelName = 'url-shortened';
+                console.log(channelName);
+
+                echo.channel('url-shortened.' + urlId )
+                    .listen('.UrlShortened', (e) => {
                         document.getElementById('shortened_url').value = e.shortenedUrl;
                     });
             }
