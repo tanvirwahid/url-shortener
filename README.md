@@ -12,31 +12,50 @@ Base62 encoding is used for generating shortened url, which is based on unique i
 2) Clone the repo.
 3) Go to the project directoy and run 'cp .env.example .env'
 4) Open .env and fill out mail related keys
+   
    MAIL_MAILER=
+   
    MAIL_HOST=
+   
    MAIL_PORT=2525
+   
    MAIL_USERNAME=null
+   
    MAIL_PASSWORD=null
+   
    MAIL_ENCRYPTION=null
+   
    MAIL_FROM_ADDRESS="hello@example.com"
+   
    MAIL_FROM_NAME="${APP_NAME}"
+   
 You can use mailtrap for testing purpose
-5) Fill out pusher related keys
+6) Fill out pusher related keys
+
    PUSHER_APP_ID=
+   
    PUSHER_APP_KEY=
+   
    PUSHER_APP_SECRET=
+   
    PUSHER_APP_CLUSTER=
-6) You can also fill out these fields
+   
+7) You can also fill out these fields
+   
    DEFAULT_ADMIN_NAME=
+   
    DEFAULT_ADMIN_EMAIL=
+   
    DEFAULT_ADMIN_PASSWORD=
+   
 If you don't fill out these field, then admin email will be admin@demo.com and password 'aaaaaaaa'
-7) Make sure BROADCAST_CONNECTION=pusher
-8) Fill out db credentials.
-9) Now run 'composer install'
-10) Open new terminal and run 'npm install'. Run 'npm run dev' after dependencies are installed.
-11) Run 'php artisan migrate' and 'php artisan db:seed'
-12) Run 'php artisan serve'
+9) Make sure BROADCAST_CONNECTION=pusher
+10) Fill out db credentials.
+11) Now run 'composer install'
+12) Open new terminal and run 'npm install'. Run 'npm run dev' after dependencies are installed.
+13) Run 'php artisan migrate' and 'php artisan db:seed'
+14) Run 'php artisan serve'. Open another terminal and run 'php artisan queue:work'. 
+15) Open another terminal and run 'php artisan queue:work --queue=url-shortener'
 
 There's also 4 apis. They are
 1) /api/v1/login (method = POST) (form-data: email, password)
