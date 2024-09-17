@@ -22,20 +22,27 @@ class UrlShortenerService
         return $this->shortUrlRepository->index();
     }
 
-    public function generate(ShortUrlDto $shortUrlDto)
+    public function generate(int $id): string
     {
-        return $this->shortUrlRepository->create(
-            $shortUrlDto->setShortenedUrl(
-                $this->base62Converter->encodeToBase62(
-                    $this->uniqueIdGenerator->createUniqueId()
-                )
-            )
+        $shortUrl = $this->shortUrlRepository->findById($id);
+
+        $shortenedUrl = $this->base62Converter->encodeToBase62(
+            $this->uniqueIdGenerator->createUniqueId()
         );
+
+        $this->shortUrlRepository->addShortenedUrl($shortUrl, $shortenedUrl);
+
+        return $shortenedUrl;
     }
 
     public function getOriginalUrl(string $shortUrl): ?ShortUrl
     {
         return $this->shortUrlRepository->getByShortUrl($shortUrl);
+    }
+
+    public function store(ShortUrlDto $shortUrlDto): ShortUrl
+    {
+        return $this->shortUrlRepository->create($shortUrlDto);
     }
 
     public function deleteExpiredUrls()

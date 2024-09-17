@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,5 +27,11 @@ class ShortUrl extends Model
     public function getUrlAttribute(): string
     {
         return url($this->shortened_url);
+    }
+
+    public function scopeActive(Builder $query)
+    {
+        $query->where('expires_at', '>=', Carbon::now())
+            ->where('shortened_url', '!=', null);
     }
 }

@@ -10,6 +10,7 @@ Route::get('/', function () {
 require __DIR__.'/auth.php';
 
 Route::post('/short-url', [ShortUrlController::class, 'store'])->name('short-url.store');
+Route::post('/{id}/generate', [ShortUrlController::class, 'generate']);
 Route::get('/{shortUrl}', [ShortUrlController::class, 'refirect'])->middleware(['url-checker']);
 
 
