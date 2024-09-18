@@ -58,6 +58,7 @@ If you don't fill out these field, then admin email will be admin@demo.com and p
 15) Open another terminal and run 'php artisan queue:work --queue=url-shortener'.
 16) Now open browser and go to localhost:8000 (port might be different).
 17) Expired urls will be automatically deleted (after 48 hours of expiration). This command is run in every 6 hours. You can run 'php artisan delete-expired-urls' to test the command.
+18) Go to /admin route to view admin panel. Admin can view admin panel as well as do everything an authenticated user can do.
 
 There's also 4 apis. They are
 1) /api/v1/login (method = POST) (form-data: email, password)
